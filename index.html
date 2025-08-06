@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="BSZY – Your hub for creative and innovative solutions.">
-    <title>BSZY Website</title>
+    <meta name="description" content="BSZY – My journey learning SwiftUI as a beginner.">
+    <title>BSZY – My SwiftUI Journey</title>
     <style>
         body {
             background-color: #000;
@@ -14,40 +14,87 @@
             padding: 0;
             line-height: 1.5;
         }
-        .intro {
+        .header {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             background-color: #000;
         }
-        .intro h1 {
+        .header h1 {
             font-size: 3.5em;
-            margin: 0 0 20px 0;
+            margin: 0;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
+        .intro {
+            text-align: center;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
         .intro p {
             font-size: 1.3em;
+            margin: 0 0 20px 0;
+        }
+        .resources {
             max-width: 900px;
-            margin: 0 auto 20px auto;
-            padding: 0 10px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .resources h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .resources ul {
+            list-style: none;
+            padding: 0;
+        }
+        .resources li {
+            margin: 10px 0;
+        }
+        .resources a {
+            color: #ff8c00;
+            text-decoration: none;
+        }
+        .resources a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            font-size: 0.9em;
         }
         @media (max-width: 768px) {
-            .intro h1 {
+            .header h1 {
                 font-size: 2.5em;
             }
             .intro p {
                 font-size: 1em;
             }
-            .intro {
-                padding: 40px 15px;
+            .resources h2 {
+                font-size: 1.5em;
             }
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>BSZY – My SwiftUI Journey</h1>
+    </div>
     <div class="intro">
-        <h1>Welcome to BSZY</h1>
-        <p>BSZY is your go-to place for cutting-edge projects and ideas. Stay tuned for more!</p>
+        <p>Welcome to my journey learning SwiftUI! As a beginner, I'm diving into iOS app development with SwiftUI to create awesome apps. Follow along as I share my progress, projects, and lessons learned.</p>
+    </div>
+    <div class="resources">
+        <h2>Resources I'm Using</h2>
+        <ul>
+            <li><a href="https://www.hackingwithswift.com/100/swiftui" target="_blank">100 Days of SwiftUI by Hacking with Swift</a></li>
+            <li><a href="https://developer.apple.com/tutorials/swiftui" target="_blank">Apple Developer: SwiftUI Tutorials</a></li>
+            <li><a href="https://www.swift.org" target="_blank">Swift.org: Official Swift Resources</a></li>
+        </ul>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 BSZY. Follow my journey on <a href="https://x.com">X</a>.</p>
     </div>
 </body>
 </html>
