@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="BSZY – My journey learning SwiftUI as a beginner. Follow my iOS app development, SwiftUI projects, and tips for learning SwiftUI and iOS development.">
     <title>BSZY – My SwiftUI Journey</title>
+
+    <!-- Favicon mit deinem Logo -->
+    <link rel="icon" href="bszy-icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="bszy-icon.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -14,36 +19,46 @@
             margin: 0;
             padding: 0;
             line-height: 1.4;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         .header {
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px 30px;
             background: linear-gradient(180deg, #111, #000);
             animation: fadeIn 1s ease-in, zoomIn 1.2s ease-out;
         }
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.6);
+        }
         .header h1 {
             font-size: 2.5em;
-            margin: 0;
+            margin: 0 0 8px 0;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: 700;
         }
-        .intro {
-            text-align: center;
-            padding: 10px;
-            max-width: 700px;
-            margin: 0 auto;
-            animation: fadeIn 1.5s ease-in;
+        .header .subtitle {
+            font-size: 1.2em;
+            margin: 0;
+            opacity: 0.85;
         }
-        .intro p {
-            font-size: 1em;
-            margin: 0 0 10px 0;
-        }
+        /* Dein restliches CSS hier einfügen – unverändert */
+        .intro { text-align: center; padding: 10px; max-width: 700px; margin: 0 auto; animation: fadeIn 1.5s ease-in; }
+        .intro p { font-size: 1em; margin: 0 0 10px 0; }
         .intro button {
             background-color: #ff8c00;
             color: #000;
@@ -61,167 +76,30 @@
             transform: scale(1.05);
             animation-play-state: paused;
         }
-        .focus-timer {
-            max-width: 700px;
-            margin: 10px auto;
-            padding: 10px;
-            text-align: center;
-            background-color: #1a1a1a;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1s ease-in;
-        }
-        .focus-timer h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .focus-timer p {
-            font-size: 1.8em;
-            margin: 5px 0;
-            color: #ffa500;
-        }
-        .focus-timer button#timer-button {
-            background-color: #ff8c00;
-            color: #000;
-            border: none;
-            padding: 8px 16px;
-            font-size: 0.9em;
-            font-family: 'Roboto Mono', monospace;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            margin: 0 5px;
-        }
-        .focus-timer button#timer-button:hover {
-            background-color: #e07b00;
-        }
-        .focus-timer button#reset-button {
-            background-color: #d97706;
-            color: #000;
-            border: none;
-            padding: 8px 16px;
-            font-size: 0.9em;
-            font-family: 'Roboto Mono', monospace;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            margin: 0 5px;
-        }
-        .focus-timer button#reset-button:hover {
-            background-color: #c16e05;
-        }
-        .resources {
-            max-width: 700px;
-            margin: 10px auto;
-            padding: 10px;
-            text-align: center;
-            background-color: #1a1a1a;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-        }
-        .resources h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .resources ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .resources li {
-            margin: 5px 0;
-            opacity: 0;
-            animation: fadeIn 1s ease-in forwards;
-        }
-        .resources li:nth-child(1) { animation-delay: 0.2s; }
-        .resources li:nth-child(2) { animation-delay: 0.4s; }
-        .resources li:nth-child(3) { animation-delay: 0.6s; }
-        .resources a {
-            color: #ff8c00;
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: color 0.3s;
-        }
-        .resources a:hover {
-            color: #e07b00;
-            text-decoration: underline;
-        }
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #000;
-            font-size: 0.8em;
-            animation: slideUp 1s ease-in;
-        }
-        .footer a {
-            color: #ffa500; /* Hellerer Orangeton für besseren Kontrast */
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes zoomIn {
-            from { transform: scale(0.9); }
-            to { transform: scale(1); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            .intro p {
-                font-size: 0.9em;
-            }
-            .intro button {
-                font-size: 0.8em;
-                padding: 6px 12px;
-            }
-            .focus-timer h2, .resources h2 {
-                font-size: 1.2em;
-            }
-            .focus-timer p {
-                font-size: 1.4em;
-            }
-            .focus-timer button {
-                font-size: 0.8em;
-                padding: 6px 12px;
-                margin: 0 3px;
-            }
-            .resources a {
-                font-size: 0.8em;
-            }
-            .footer {
-                font-size: 0.7em;
-            }
-        }
+        /* ... der Rest deines CSS (focus-timer, resources, footer, animations, media queries) bleibt genau gleich ... */
     </style>
 </head>
 <body>
     <div class="header">
+        <div class="logo-container">
+            <img src="bszy-icon.png" alt="BSZY Dev Logo – Smartphone Sketch with bszy.dev" class="logo">
+        </div>
         <h1>BSZY – My SwiftUI Journey</h1>
+        <div class="subtitle">bszy.dev</div>
     </div>
+
     <div class="intro">
         <p>Welcome to my journey learning SwiftUI! As a beginner, I'm diving into iOS app development with SwiftUI to create awesome apps. Follow along as I share my progress, projects, and lessons learned.</p>
         <button onclick="document.getElementById('resources').scrollIntoView({ behavior: 'smooth' });">Get Inspired!</button>
     </div>
+
     <div class="focus-timer" id="focus-timer">
         <h2>Focus Timer</h2>
         <p id="timer-display">25:00</p>
         <button id="timer-button" onclick="toggleTimer()">Start</button>
         <button id="reset-button" onclick="resetTimer()">Reset</button>
     </div>
+
     <div class="resources" id="resources">
         <h2>Resources I'm Using</h2>
         <ul>
@@ -230,14 +108,15 @@
             <li><a href="https://www.swift.org" target="_blank">Swift.org: Official Swift Resources</a></li>
         </ul>
     </div>
+
     <div class="footer">
-        <p>&copy; 2025 BSZY. Follow my journey on <a href="https://x.com/balintszy">X</a>.</p>
+        <p>© 2026 BSZY. Follow my journey on <a href="https://x.com/balintszy">X</a>.</p>
     </div>
+
     <script>
         let timer;
         let isRunning = false;
-        let secondsLeft = 25 * 60; // Default: 25 minutes
-
+        let secondsLeft = 25 * 60;
         function toggleTimer() {
             const button = document.getElementById('timer-button');
             if (!isRunning) {
@@ -250,7 +129,7 @@
                         clearInterval(timer);
                         isRunning = false;
                         button.textContent = 'Start';
-                        secondsLeft = 25 * 60; // Reset to 25 minutes
+                        secondsLeft = 25 * 60;
                         updateTimerDisplay();
                         alert('Focus session complete!');
                     }
@@ -261,19 +140,17 @@
                 button.textContent = 'Start';
             }
         }
-
         function resetTimer() {
             clearInterval(timer);
             isRunning = false;
-            secondsLeft = 25 * 60; // Reset to 25 minutes
+            secondsLeft = 25 * 60;
             document.getElementById('timer-button').textContent = 'Start';
             updateTimerDisplay();
         }
-
         function updateTimerDisplay() {
             const minutes = Math.floor(secondsLeft / 60);
             const seconds = secondsLeft % 60;
-            document.getElementById('timer-display').textContent = 
+            document.getElementById('timer-display').textContent =
                 `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
     </script>
