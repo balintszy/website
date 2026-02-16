@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BSZY – My SwiftUI learning journey as a beginner. Follow my iOS app development progress and projects.">
+    <title>BSZY – SwiftUI Journey</title>
+    <!-- Favicon -->
+    <link rel="icon" href="bszy-icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="bszy-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            text-align: center;
+            padding: 50px 20px 30px;
+            background: linear-gradient(180deg, #f8f8f8, #ffffff);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        .logo-container {
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInScale 1.2s ease-out 0.2s forwards;
+        }
+        .logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 36px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .logo:hover {
+            transform: scale(1.08) rotate(2deg);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+        }
+        .intro {
+            text-align: center;
+            padding: 0 20px 40px;
+            max-width: 760px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+        .intro p {
+            font-size: 1.05em;
+            margin: 0 0 20px 0;
+        }
+        .resources {
+            max-width: 760px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .resources h2 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.8s forwards;
+        }
+        .resources ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;           /* engerer Abstand */
+        }
+        .resources li {
+            background: #f5f5f5;   /* sehr hell, fast weiß */
+            padding: 10px 14px;    /* kleiner und dezenter */
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);  /* fast kein Schatten mehr */
+            transition: all 0.25s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .resources li:nth-child(1) { animation: fadeInUp 0.8s ease-out 1s forwards; }
+        .resources li:nth-child(2) { animation: fadeInUp 0.8s ease-out 1.1s forwards; }
+        .resources li:nth-child(3) { animation: fadeInUp 0.8s ease-out 1.2s forwards; }
+        .resources li:hover {
+            transform: translateY(-2px);   /* nur ganz leichter Lift */
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+            background: #f0f0f0;           /* minimaler Farbwechsel */
+        }
+        .resources a {
+            color: #000;
+            text-decoration: none;
+            font-size: 0.9em;              /* kleiner gemacht */
+            transition: color 0.3s ease;
+        }
+        .resources a:hover {
+            color: #0066cc;
+        }
+        .footer {
+            text-align: center;
+            padding: 24px 20px;
+            font-size: 0.85em;
+            color: #555;
+            margin-top: auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.4s forwards;
+        }
+        .footer a {
+            color: #000;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: #0066cc;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 40px 15px 25px; }
+            .logo { width: 140px; height: 140px; border-radius: 28px; }
+            .header h1 { font-size: 2em; }
+            .intro p { font-size: 1em; }
+            .resources h2 { font-size: 1.4em; }
+            .resources a { font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="bszy-icon.png" alt="BSZY Logo" class="logo">
+        </div>
+        <h1>BSZY – SwiftUI Journey</h1>
+    </div>
+
+    <div class="intro">
+        <p>Hey, I'm Balint from Zurich! 👋  
+        This is my real-time journey learning SwiftUI from scratch and building iOS apps as a complete beginner. Join me for progress updates, projects and lessons learned.</p>
+    </div>
+
+    <div class="resources">
+        <h2>Resources I'm Using</h2>
+        <ul>
+            <li><a href="https://www.hackingwithswift.com/100/swiftui" target="_blank">100 Days of SwiftUI by Hacking with Swift</a></li>
+            <li><a href="https://developer.apple.com/tutorials/swiftui" target="_blank">Apple Developer: SwiftUI Tutorials</a></li>
+            <li><a href="https://www.swift.org" target="_blank">Swift.org: Official Swift Resources</a></li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 BSZY · <a href="https://x.com/balintszy">Follow on X</a></p>
+    </div>
+</body>
+</html>
