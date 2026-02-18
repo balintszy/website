@@ -38,25 +38,49 @@
             --shadow-xl: 0 16px 40px rgba(0,0,0,0.25);
         }
         
-        /* Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-primary: #1a1a1a;
-                --bg-secondary: #242424;
-                --text-primary: #ffffff;
-                --text-secondary: #aaaaaa;
-                --accent-color: #4d9fff;
-                --card-bg: #2a2a2a;
-                --card-hover: #333333;
-                --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-                --shadow-md: 0 3px 8px rgba(0,0,0,0.4);
-                --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
-                --shadow-xl: 0 16px 40px rgba(0,0,0,0.6);
-            }
+        /* Dark Mode Support - Manual Toggle */
+        body.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --accent-color: #4d9fff;
+            --card-bg: #2a2a2a;
+            --card-hover: #333333;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 3px 8px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+            --shadow-xl: 0 16px 40px rgba(0,0,0,0.6);
         }
         
         html {
             scroll-behavior: smooth;
+        }
+        
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.2em;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .theme-toggle:active {
+            transform: scale(0.95);
         }
         
         body {
@@ -296,6 +320,7 @@
         }
 
         @media (max-width: 768px) {
+            .theme-toggle { top: 10px; right: 10px; padding: 10px 12px; font-size: 1em; }
             .header { padding: 40px 15px 25px; }
             .logo { width: 140px; height: 140px; border-radius: 28px; }
             .header h1 { font-size: 2em; }
@@ -306,7 +331,7 @@
         }
         
         /* Reduced Motion for Accessibility */
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -317,6 +342,11 @@
     </style>
 </head>
 <body>
+    <!-- Dark Mode Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <span id="theme-icon">🌙</span>
+    </button>
+
     <!-- Skip to Content Link for Screenreaders -->
     <a href="#main-content" class="skip-to-content">Zum Inhalt springen</a>
     
@@ -345,7 +375,7 @@
         </section>
 
         <section class="resources">
-            <h2>Resources I’m using</h2>
+            <h2>Resources I'm using</h2>
             <ul>
                 <li>
                     <a href="https://www.hackingwithswift.com/100/swiftui" 
@@ -378,5 +408,31 @@
     <footer class="footer">
         <p>© 2026 BSZY · <a href="https://x.com/balintszy" target="_blank" rel="noopener noreferrer me">Follow on X</a></p>
     </footer>
+
+    <script>
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        const themeIcon = document.getElementById('theme-icon');
+        
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.textContent = '☀️';
+        }
+        
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                themeIcon.textContent = '☀️';
+            } else {
+                themeIcon.textContent = '🌙';
+            }
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', theme);
+        }
+    </script>
 </body>
 </html>
