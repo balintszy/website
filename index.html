@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My journey as a SwiftUI beginner – from zero to iOS Developer">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+    <meta name="author" content="Balint">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="bszy.dev – SwiftUI Journey">
+    <meta property="og:description" content="My journey as a SwiftUI beginner – from zero to iOS Developer">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="bszy_main.jpg">
+
+    <title>bszy.dev – SwiftUI Journey</title>
+
+    <link rel="icon" href="bszy_main.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="bszy_main.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #0a0a0a;
+            --text-secondary: #666666;
+            --accent: #185FA5;
+            --border: rgba(0,0,0,0.1);
+            --border-hover: rgba(0,0,0,0.2);
+            --card-bg: #ffffff;
+            --badge-learning-bg: #eaf3de;
+            --badge-learning-color: #3b6d11;
+            --badge-wip-bg: #faeeda;
+            --badge-wip-color: #854f0b;
+            --icon-hws-bg: #E6F1FB;
+            --icon-hws-color: #185FA5;
+            --icon-swift-bg: #FAECE7;
+            --icon-swift-color: #993C1D;
+        }
+
+        body.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #f0f0f0;
+            --text-secondary: #999999;
+            --accent: #4d9fff;
+            --border: rgba(255,255,255,0.1);
+            --border-hover: rgba(255,255,255,0.2);
+            --card-bg: #222222;
+            --badge-learning-bg: #173404;
+            --badge-learning-color: #c0dd97;
+            --badge-wip-bg: #412402;
+            --badge-wip-color: #fac775;
+            --icon-hws-bg: #042C53;
+            --icon-hws-color: #85B7EB;
+            --icon-swift-bg: #4A1B0C;
+            --icon-swift-color: #F0997B;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            margin: 0; padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .skip-link { position:absolute; top:-40px; left:0; background:var(--accent); color:#fff; padding:8px 16px; text-decoration:none; z-index:100; }
+        .skip-link:focus { top:0; }
+
+        .theme-toggle {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            background: var(--card-bg); border: 1px solid var(--border);
+            padding: 10px 14px; border-radius: 8px; cursor: pointer;
+            font-family: 'Space Mono', monospace; font-size: 1.1em;
+            transition: all 0.2s ease;
+        }
+        .theme-toggle:hover { transform: scale(1.08); border-color: var(--border-hover); }
+        .theme-toggle:active { transform: scale(0.95); }
+
+        .page { width: 100%; max-width: 680px; padding: 0 24px; }
+
+        /* HERO */
+        .hero {
+            padding: 3rem 0 2rem;
+            border-bottom: 0.5px solid var(--border);
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 0.7s ease-out 0.1s forwards;
+        }
+        .hero-top { display:flex; align-items:center; gap:16px; margin-bottom:1rem; }
+        .logo-img { width:56px; height:56px; border-radius:14px; object-fit:cover; flex-shrink:0; }
+        .hero-meta { flex:1; }
+        .hero-name { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; color:var(--text-primary); margin:0 0 2px; }
+        .hero-tag { font-size:13px; color:var(--text-secondary); margin:0; }
+        .badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:500; background:var(--badge-learning-bg); color:var(--badge-learning-color); padding:3px 8px; border-radius:20px; }
+        .badge-dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+        .hero-desc { font-size:15px; color:var(--text-secondary); line-height:1.65; margin:0; }
+
+        /* SECTIONS */
+        .section { padding:1.75rem 0; border-bottom:0.5px solid var(--border); opacity:0; transform:translateY(20px); }
+        .section:last-child { border-bottom:none; }
+        .section-label { font-family:'Space Mono',monospace; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-secondary); margin:0 0 1rem; }
+
+        /* PROGRESS */
+        .progress-big { display:flex; align-items:baseline; gap:6px; }
+        .day-num { font-family:'Space Mono',monospace; font-size:48px; font-weight:700; color:var(--text-primary); line-height:1; }
+        .day-label { font-size:14px; color:var(--text-secondary); }
+        .progress-detail { display:flex; align-items:center; gap:12px; margin-top:10px; }
+        .progress-track { flex:1; height:6px; background:var(--bg-secondary); border-radius:3px; overflow:hidden; }
+        .progress-bar { height:100%; border-radius:3px; background:var(--accent); width:0%; transition:width 1.4s ease 0.5s; }
+        .progress-pct { font-family:'Space Mono',monospace; font-size:12px; color:var(--text-secondary); white-space:nowrap; }
+
+        /* PROJECT CARD */
+        .project-card { background:var(--card-bg); border:0.5px solid var(--border); border-radius:12px; padding:1.25rem; }
+        .project-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px; }
+        .project-name { font-size:15px; font-weight:500; color:var(--text-primary); margin:0 0 3px; }
+        .project-sub { font-size:13px; color:var(--text-secondary); margin:0; }
+        .status-pill { font-size:11px; font-weight:500; padding:3px 8px; border-radius:20px; white-space:nowrap; background:var(--badge-wip-bg); color:var(--badge-wip-color); }
+        .project-screen { margin:12px 0; background:var(--bg-secondary); border-radius:8px; height:90px; display:flex; align-items:center; border:0.5px solid var(--border); overflow:hidden; }
+        .screen-code { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-secondary); line-height:1.8; padding:12px; margin:0; }
+        .project-tags { display:flex; gap:6px; flex-wrap:wrap; }
+        .tag { font-size:11px; color:var(--text-secondary); background:var(--bg-secondary); padding:2px 8px; border-radius:4px; border:0.5px solid var(--border); }
+
+        /* RESOURCES */
+        .resources-list { display:flex; flex-direction:column; gap:8px; }
+        .resource-item { display:flex; align-items:center; gap:12px; padding:10px 14px; background:var(--card-bg); border:0.5px solid var(--border); border-radius:8px; cursor:pointer; text-decoration:none; transition:background 0.15s, border-color 0.15s; }
+        .resource-item:hover { background:var(--bg-secondary); border-color:var(--border-hover); }
+        .resource-icon { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; font-family:'Space Mono',monospace; font-weight:700; }
+        .ri-hws { background:var(--icon-hws-bg); color:var(--icon-hws-color); }
+        .ri-apple { background:var(--bg-secondary); color:var(--text-secondary); border:0.5px solid var(--border); }
+        .ri-swift { background:var(--icon-swift-bg); color:var(--icon-swift-color); }
+        .ri-help { background:var(--badge-learning-bg); color:var(--badge-learning-color); }
+        .resource-text { flex:1; }
+        .resource-name { font-size:13px; font-weight:500; color:var(--text-primary); margin:0 0 1px; }
+        .resource-url { font-size:11px; color:var(--text-secondary); margin:0; font-family:'Space Mono',monospace; }
+        .resource-arrow { font-size:12px; color:var(--text-secondary); }
+
+        /* HELP BANNER — dezent, gleicher Stil */
+        .help-banner {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .help-banner:hover { background:var(--bg-secondary); border-color:var(--border-hover); }
+        .help-banner-left { display:flex; align-items:center; gap:12px; }
+        .help-banner-icon { width:28px; height:28px; border-radius:6px; background:var(--icon-hws-bg); color:var(--icon-hws-color); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
+        .help-banner-title { font-size:13px; font-weight:500; color:var(--text-primary); margin:0 0 1px; }
+        .help-banner-sub { font-size:11px; color:var(--text-secondary); margin:0; font-family:'Space Mono',monospace; }
+        .help-banner-arrow { font-size:12px; color:var(--text-secondary); }
+
+        /* FOOTER */
+        .footer { display:flex; align-items:center; justify-content:space-between; padding:1.5rem 0 2.5rem; opacity:0; animation:fadeUp 0.7s ease-out 1s forwards; }
+        .footer-copy { font-size:12px; color:var(--text-secondary); font-family:'Space Mono',monospace; }
+        .social-link { font-size:12px; color:var(--text-secondary); font-family:'Space Mono',monospace; text-decoration:none; padding:4px 10px; border:0.5px solid var(--border); border-radius:4px; transition:color 0.2s, border-color 0.2s; }
+        .social-link:hover { color:var(--text-primary); border-color:var(--border-hover); }
+
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .section:nth-child(1){animation:fadeUp 0.7s ease-out 0.3s forwards}
+        .section:nth-child(2){animation:fadeUp 0.7s ease-out 0.45s forwards}
+        .section:nth-child(3){animation:fadeUp 0.7s ease-out 0.6s forwards}
+        .section:nth-child(4){animation:fadeUp 0.7s ease-out 0.75s forwards}
+
+        @media(max-width:600px){.theme-toggle{top:12px;right:12px;padding:8px 11px;font-size:1em}.day-num{font-size:36px}.hero{padding-top:2.5rem}}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <span id="theme-icon">🌙</span>
+    </button>
+
+    <div class="page">
+        <header class="hero">
+            <div class="hero-top">
+                <img src="bszy_main.jpg" alt="BSZY Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="hero-meta">
+                    <p class="hero-name">bszy.dev</p>
+                    <p class="hero-tag">Balint · Effingen, CH</p>
+                </div>
+                <span class="badge"><span class="badge-dot"></span>Learning</span>
+            </div>
+            <p class="hero-desc">SwiftUI beginner going from zero to iOS developer. Building in public — progress, projects, and honest lessons along the way.</p>
+        </header>
+
+        <main id="main-content">
+
+            <section class="section">
+                <p class="section-label">100 Days of SwiftUI</p>
+                <div class="progress-big">
+                    <span class="day-num" id="dayNum">11</span>
+                    <span class="day-label">of 100 days</span>
+                </div>
+                <div class="progress-detail">
+                    <div class="progress-track">
+                        <div class="progress-bar" id="pBar" role="progressbar" aria-valuenow="11" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="progress-pct" id="pct">11%</span>
+                </div>
+            </section>
+
+            <section class="section">
+                <p class="section-label">Current project</p>
+                <div class="project-card">
+                    <div class="project-header">
+                        <div>
+                            <p class="project-name">WeSplit</p>
+                            <p class="project-sub">100 Days – Day 16 challenge</p>
+                        </div>
+                        <span class="status-pill">In progress</span>
+                    </div>
+                    <div class="project-screen">
+                        <pre class="screen-code">struct ContentView: View {
+  @State var amount = 0.0
+  var body: some View {
+    Form { ... }
+  }
+}</pre>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">SwiftUI</span>
+                        <span class="tag">@State</span>
+                        <span class="tag">Form</span>
+                        <span class="tag">Beginner</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <p class="section-label">Resources</p>
+                <div class="resources-list">
+                    <a class="resource-item" href="https://www.hackingwithswift.com/100/swiftui" target="_blank" rel="noopener noreferrer">
+                        <div class="resource-icon ri-hws">HWS</div>
+                        <div class="resource-text">
+                            <p class="resource-name">100 Days of SwiftUI</p>
+                            <p class="resource-url">hackingwithswift.com</p>
+                        </div>
+                        <span class="resource-arrow">↗</span>
+                    </a>
+                    <a class="resource-item" href="https://developer.apple.com/tutorials/swiftui" target="_blank" rel="noopener noreferrer">
+                        <div class="resource-icon ri-apple">APL</div>
+                        <div class="resource-text">
+                            <p class="resource-name">Apple SwiftUI Tutorials</p>
+                            <p class="resource-url">developer.apple.com</p>
+                        </div>
+                        <span class="resource-arrow">↗</span>
+                    </a>
+                    <a class="resource-item" href="https://www.swift.org" target="_blank" rel="noopener noreferrer">
+                        <div class="resource-icon ri-swift">S</div>
+                        <div class="resource-text">
+                            <p class="resource-name">Swift.org</p>
+                            <p class="resource-url">swift.org</p>
+                        </div>
+                        <span class="resource-arrow">↗</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="section">
+                <p class="section-label">Support</p>
+                <a class="help-banner" href="https://help.bszy.dev" target="_blank" rel="noopener noreferrer">
+                    <div class="help-banner-left">
+                        <div class="help-banner-icon">💬</div>
+                        <div>
+                            <p class="help-banner-title">Persönlicher Support</p>
+                            <p class="help-banner-sub">help.bszy.dev · ab 39 CHF</p>
+                        </div>
+                    </div>
+                    <span class="help-banner-arrow">↗</span>
+                </a>
+            </section>
+
+        </main>
+
+        <footer class="footer">
+            <span class="footer-copy">© 2026 BSZY</span>
+            <a class="social-link" href="https://x.com/balintszy" target="_blank" rel="noopener noreferrer me">@balintszy ↗</a>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const DAY = 11; // <-- update this number as you progress
+
+            document.getElementById('dayNum').textContent = DAY;
+            document.getElementById('pct').textContent = DAY + '%';
+            document.getElementById('pBar').setAttribute('aria-valuenow', DAY);
+            setTimeout(function () {
+                document.getElementById('pBar').style.width = DAY + '%';
+            }, 400);
+
+            const themeIcon = document.getElementById('theme-icon');
+            let currentTheme = 'light';
+
+            function isLocalStorageAvailable() {
+                try { localStorage.setItem('__test__', '1'); localStorage.removeItem('__test__'); return true; }
+                catch (e) { return false; }
+            }
+
+            function applyTheme(theme) {
+                if (theme === 'dark') { document.body.classList.add('dark-mode'); if (themeIcon) themeIcon.textContent = '☀️'; }
+                else { document.body.classList.remove('dark-mode'); if (themeIcon) themeIcon.textContent = '🌙'; }
+                currentTheme = theme;
+            }
+
+            function getSaved() { return isLocalStorageAvailable() ? (localStorage.getItem('theme') || 'light') : 'light'; }
+
+            applyTheme(getSaved());
+
+            window.toggleTheme = function () {
+                const next = currentTheme === 'dark' ? 'light' : 'dark';
+                applyTheme(next);
+                if (isLocalStorageAvailable()) localStorage.setItem('theme', next);
+            };
+        })();
+    </script>
+</body>
+</html>
