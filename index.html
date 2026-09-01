@@ -1,375 +1,382 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="My journey as a SwiftUI beginner – from zero to iOS Developer">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
-    <meta name="author" content="Balint">
-    <meta name="robots" content="index, follow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Balint — auf dem Weg zum iOS-Entwickler. Ich lerne SwiftUI in aller Öffentlichkeit und dokumentiere jeden Schritt ehrlich.">
+<meta name="theme-color" content="#101418">
+<title>bszy.dev — Weg zum iOS-Entwickler</title>
+<style>
+  :root {
+    --bg: #101418;
+    --surface: #171c22;
+    --surface-2: #1e252d;
+    --line: #2a333d;
+    --ink: #eef2f6;
+    --ink-soft: #a5b2bf;
+    --ink-mute: #6d7c8a;
+    --accent: #5ac8fa;      /* SwiftUI-Blau — kühl, technisch */
+    --accent-ink: #101418;
+    --ok: #4ec98a;
+    --radius: 14px;
+    --maxw: 640px;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
 
-    <meta property="og:title" content="bszy.dev – SwiftUI Journey">
-    <meta property="og:description" content="My journey as a SwiftUI beginner – from zero to iOS Developer">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="bszy_main.jpg">
+  /* Header */
+  header { padding: 28px 0 20px; border-bottom: 1px solid var(--line); }
+  .brandrow { display: flex; align-items: center; gap: 14px; }
+  .brandrow img {
+    width: 48px; height: 48px; border-radius: 12px; object-fit: cover;
+    background: var(--surface-2);
+  }
+  .brandname { font-size: 1.05rem; font-weight: 650; letter-spacing: -0.01em; }
+  .brandmeta { font-size: 0.82rem; color: var(--ink-mute); }
+  .headlink {
+    margin-left: auto; font-size: 0.82rem; color: var(--ink-soft);
+    text-decoration: none; border: 1px solid var(--line);
+    padding: 7px 12px; border-radius: 999px; transition: border-color .15s;
+  }
+  .headlink:hover { border-color: var(--accent); color: var(--ink); }
 
-    <title>bszy.dev – SwiftUI Journey</title>
+  .langswitch {
+    display: inline-flex; margin-left: 10px; border: 1px solid var(--line);
+    border-radius: 999px; overflow: hidden; font-size: 0.76rem; font-weight: 600;
+  }
+  .langswitch button {
+    background: none; border: none; color: var(--ink-mute);
+    padding: 7px 11px; cursor: pointer; font: inherit; transition: color .15s, background .15s;
+  }
+  .langswitch button.active { background: var(--accent); color: var(--accent-ink); }
+  .langswitch button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
-    <link rel="icon" href="bszy_main.jpg" type="image/jpeg">
-    <link rel="apple-touch-icon" href="bszy_main.jpg">
+  /* Hero */
+  .hero { padding: 44px 0 30px; }
+  .hero h1 {
+    font-size: clamp(1.7rem, 6vw, 2.35rem);
+    line-height: 1.14; letter-spacing: -0.02em; font-weight: 700;
+  }
+  .hero p {
+    margin-top: 15px; color: var(--ink-soft); font-size: 1.02rem; max-width: 54ch;
+  }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  /* Streak / commitment strip — die Lernreise als Stärke */
+  .commit {
+    margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 16px 18px;
+  }
+  .stat .num {
+    font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--accent); line-height: 1;
+  }
+  .stat .lab { margin-top: 6px; font-size: 0.82rem; color: var(--ink-soft); }
 
-    <style>
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --text-primary: #0a0a0a;
-            --text-secondary: #666666;
-            --accent: #185FA5;
-            --border: rgba(0,0,0,0.1);
-            --border-hover: rgba(0,0,0,0.2);
-            --card-bg: #ffffff;
-            --badge-learning-bg: #eaf3de;
-            --badge-learning-color: #3b6d11;
-            --badge-wip-bg: #faeeda;
-            --badge-wip-color: #854f0b;
-            --icon-hws-bg: #E6F1FB;
-            --icon-hws-color: #185FA5;
-            --icon-swift-bg: #FAECE7;
-            --icon-swift-color: #993C1D;
-        }
+  /* Section shell */
+  section { padding: 34px 0; border-top: 1px solid var(--line); }
+  .sec-title { font-size: 1.15rem; font-weight: 650; letter-spacing: -0.01em; }
+  .sec-sub { color: var(--ink-mute); font-size: 0.9rem; margin-top: 4px; }
 
-        body.dark-mode {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #242424;
-            --text-primary: #f0f0f0;
-            --text-secondary: #999999;
-            --accent: #4d9fff;
-            --border: rgba(255,255,255,0.1);
-            --border-hover: rgba(255,255,255,0.2);
-            --card-bg: #222222;
-            --badge-learning-bg: #173404;
-            --badge-learning-color: #c0dd97;
-            --badge-wip-bg: #412402;
-            --badge-wip-color: #fac775;
-            --icon-hws-bg: #042C53;
-            --icon-hws-color: #85B7EB;
-            --icon-swift-bg: #4A1B0C;
-            --icon-swift-color: #F0997B;
-        }
+  /* Current work */
+  .now {
+    margin-top: 20px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .now .top {
+    display: flex; align-items: center; gap: 10px; padding: 16px 18px 0;
+  }
+  .now .proj { font-weight: 650; font-size: 1.02rem; }
+  .now .pill {
+    margin-left: auto; font-size: 0.72rem; font-weight: 600;
+    color: var(--ok); background: rgba(78,201,138,0.12);
+    padding: 4px 9px; border-radius: 999px;
+  }
+  .now .meta { padding: 4px 18px 14px; font-size: 0.85rem; color: var(--ink-soft); }
+  .now pre {
+    margin: 0 18px 18px; padding: 14px; background: #0c1015;
+    border: 1px solid var(--line); border-radius: 10px;
+    font-family: var(--mono); font-size: 0.8rem; color: #cdd6e0;
+    overflow-x: auto; line-height: 1.5;
+  }
+  .now .k { color: #ff7ab2; }      /* keyword */
+  .now .t { color: #79c0ff; }      /* type */
+  .now .p { color: #a5b2bf; }      /* punctuation/muted */
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 18px 18px; }
+  .tag {
+    font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft);
+    background: var(--surface-2); border: 1px solid var(--line);
+    padding: 3px 8px; border-radius: 6px;
+  }
 
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+  /* Approach — warum das ernst gemeint ist */
+  .cards { display: grid; gap: 10px; margin-top: 20px; }
+  .card {
+    display: flex; gap: 13px; align-items: flex-start;
+    padding: 15px 16px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius);
+  }
+  .card .ic { font-size: 1.15rem; line-height: 1.4; flex-shrink: 0; }
+  .card .txt b { font-weight: 600; display: block; font-size: 0.95rem; }
+  .card .txt span { color: var(--ink-soft); font-size: 0.86rem; }
 
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'DM Sans', sans-serif;
-            margin: 0; padding: 0;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+  /* Resources */
+  .links { display: grid; gap: 8px; margin-top: 18px; }
+  .rlink {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 15px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    text-decoration: none; color: var(--ink); transition: border-color .15s;
+  }
+  .rlink:hover { border-color: var(--accent); }
+  .rlink .badge {
+    width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+    display: grid; place-items: center; font-weight: 700; font-size: 0.75rem;
+    background: var(--surface-2); color: var(--accent); border: 1px solid var(--line);
+  }
+  .rlink .rname { font-size: 0.92rem; font-weight: 550; }
+  .rlink .rurl { font-size: 0.78rem; color: var(--ink-mute); }
+  .rlink .arrow { margin-left: auto; color: var(--ink-mute); }
 
-        .skip-link { position:absolute; top:-40px; left:0; background:var(--accent); color:#fff; padding:8px 16px; text-decoration:none; z-index:100; }
-        .skip-link:focus { top:0; }
+  /* Footer */
+  footer {
+    padding: 30px 0 40px; border-top: 1px solid var(--line);
+    font-size: 0.82rem; color: var(--ink-mute);
+    display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center;
+  }
+  footer a { color: var(--ink-soft); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+  footer .spacer { margin-left: auto; }
 
-        .theme-toggle {
-            position: fixed; top: 20px; right: 20px; z-index: 1000;
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 10px 14px; border-radius: 8px; cursor: pointer;
-            font-family: 'Space Mono', monospace; font-size: 1.1em;
-            transition: all 0.2s ease;
-        }
-        .theme-toggle:hover { transform: scale(1.08); border-color: var(--border-hover); }
-        .theme-toggle:active { transform: scale(0.95); }
-
-        .page { width: 100%; max-width: 680px; padding: 0 24px; }
-
-        /* HERO */
-        .hero {
-            padding: 3rem 0 2rem;
-            border-bottom: 0.5px solid var(--border);
-            opacity: 0; transform: translateY(20px);
-            animation: fadeUp 0.7s ease-out 0.1s forwards;
-        }
-        .hero-top { display:flex; align-items:center; gap:16px; margin-bottom:1rem; }
-        .logo-img { width:56px; height:56px; border-radius:14px; object-fit:cover; flex-shrink:0; }
-        .hero-meta { flex:1; }
-        .hero-name { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; color:var(--text-primary); margin:0 0 2px; }
-        .hero-tag { font-size:13px; color:var(--text-secondary); margin:0; }
-        .badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:500; background:var(--badge-learning-bg); color:var(--badge-learning-color); padding:3px 8px; border-radius:20px; }
-        .badge-dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
-        .hero-desc { font-size:15px; color:var(--text-secondary); line-height:1.65; margin:0; }
-
-        /* SECTIONS */
-        .section { padding:1.75rem 0; border-bottom:0.5px solid var(--border); opacity:0; transform:translateY(20px); }
-        .section:last-child { border-bottom:none; }
-        .section-label { font-family:'Space Mono',monospace; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-secondary); margin:0 0 1rem; }
-
-        /* PROGRESS */
-        .progress-big { display:flex; align-items:baseline; gap:6px; }
-        .day-num { font-family:'Space Mono',monospace; font-size:48px; font-weight:700; color:var(--text-primary); line-height:1; }
-        .day-label { font-size:14px; color:var(--text-secondary); }
-        .progress-detail { display:flex; align-items:center; gap:12px; margin-top:10px; }
-        .progress-track { flex:1; height:6px; background:var(--bg-secondary); border-radius:3px; overflow:hidden; }
-        .progress-bar { height:100%; border-radius:3px; background:var(--accent); width:0%; transition:width 1.4s ease 0.5s; }
-        .progress-pct { font-family:'Space Mono',monospace; font-size:12px; color:var(--text-secondary); white-space:nowrap; }
-
-        /* PROJECT CARD */
-        .project-card { background:var(--card-bg); border:0.5px solid var(--border); border-radius:12px; padding:1.25rem; }
-        .project-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px; }
-        .project-name { font-size:15px; font-weight:500; color:var(--text-primary); margin:0 0 3px; }
-        .project-sub { font-size:13px; color:var(--text-secondary); margin:0; }
-        .status-pill { font-size:11px; font-weight:500; padding:3px 8px; border-radius:20px; white-space:nowrap; background:var(--badge-wip-bg); color:var(--badge-wip-color); }
-        .project-screen { margin:12px 0; background:var(--bg-secondary); border-radius:8px; height:90px; display:flex; align-items:center; border:0.5px solid var(--border); overflow:hidden; }
-        .screen-code { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-secondary); line-height:1.8; padding:12px; margin:0; }
-        .project-tags { display:flex; gap:6px; flex-wrap:wrap; }
-        .tag { font-size:11px; color:var(--text-secondary); background:var(--bg-secondary); padding:2px 8px; border-radius:4px; border:0.5px solid var(--border); }
-
-        /* RESOURCES */
-        .resources-list { display:flex; flex-direction:column; gap:8px; }
-        .resource-item { display:flex; align-items:center; gap:12px; padding:10px 14px; background:var(--card-bg); border:0.5px solid var(--border); border-radius:8px; cursor:pointer; text-decoration:none; transition:background 0.15s, border-color 0.15s; }
-        .resource-item:hover { background:var(--bg-secondary); border-color:var(--border-hover); }
-        .resource-icon { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; font-family:'Space Mono',monospace; font-weight:700; }
-        .ri-hws { background:var(--icon-hws-bg); color:var(--icon-hws-color); }
-        .ri-apple { background:var(--bg-secondary); color:var(--text-secondary); border:0.5px solid var(--border); }
-        .ri-swift { background:var(--icon-swift-bg); color:var(--icon-swift-color); }
-        .ri-help { background:var(--badge-learning-bg); color:var(--badge-learning-color); }
-        .resource-text { flex:1; }
-        .resource-name { font-size:13px; font-weight:500; color:var(--text-primary); margin:0 0 1px; }
-        .resource-url { font-size:11px; color:var(--text-secondary); margin:0; font-family:'Space Mono',monospace; }
-        .resource-arrow { font-size:12px; color:var(--text-secondary); }
-
-        /* HELP BANNER — dezent, gleicher Stil */
-        .help-banner {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px;
-            background: var(--card-bg);
-            border: 0.5px solid var(--border);
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background 0.15s, border-color 0.15s;
-        }
-        .help-banner:hover { background:var(--bg-secondary); border-color:var(--border-hover); }
-        .help-banner-left { display:flex; align-items:center; gap:12px; }
-        .help-banner-icon { width:28px; height:28px; border-radius:6px; background:var(--icon-hws-bg); color:var(--icon-hws-color); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
-        .help-banner-title { font-size:13px; font-weight:500; color:var(--text-primary); margin:0 0 1px; }
-        .help-banner-sub { font-size:11px; color:var(--text-secondary); margin:0; font-family:'Space Mono',monospace; }
-        .help-banner-arrow { font-size:12px; color:var(--text-secondary); }
-
-        /* FOOTER */
-        .footer { display:flex; align-items:center; justify-content:space-between; padding:1.5rem 0 2.5rem; opacity:0; animation:fadeUp 0.7s ease-out 1s forwards; }
-        .footer-copy { font-size:12px; color:var(--text-secondary); font-family:'Space Mono',monospace; }
-        .social-link { font-size:12px; color:var(--text-secondary); font-family:'Space Mono',monospace; text-decoration:none; padding:4px 10px; border:0.5px solid var(--border); border-radius:4px; transition:color 0.2s, border-color 0.2s; }
-        .social-link:hover { color:var(--text-primary); border-color:var(--border-hover); }
-
-        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        .section:nth-child(1){animation:fadeUp 0.7s ease-out 0.3s forwards}
-        .section:nth-child(2){animation:fadeUp 0.7s ease-out 0.45s forwards}
-        .section:nth-child(3){animation:fadeUp 0.7s ease-out 0.6s forwards}
-        .section:nth-child(4){animation:fadeUp 0.7s ease-out 0.75s forwards}
-
-        @media(max-width:600px){.theme-toggle{top:12px;right:12px;padding:8px 11px;font-size:1em}.day-num{font-size:36px}.hero{padding-top:2.5rem}}
-        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
-    </style>
+  /* Modal */
+  dialog {
+    max-width: 520px; width: calc(100% - 40px); margin: auto;
+    background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px;
+  }
+  dialog::backdrop { background: rgba(0,0,0,0.6); }
+  dialog h3 { font-size: 1.1rem; margin-bottom: 14px; }
+  dialog p { font-size: 0.86rem; color: var(--ink-soft); margin-bottom: 10px; }
+  dialog b { color: var(--ink); }
+  dialog .close {
+    position: absolute; top: 16px; right: 18px; background: none; border: none;
+    color: var(--ink-mute); font-size: 1.4rem; cursor: pointer;
+  }
+  a.link { color: var(--accent); text-decoration: none; }
+</style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-        <span id="theme-icon">🌙</span>
-    </button>
+<div class="wrap">
+  <header>
+    <div class="brandrow">
+      <img src="https://bszy.dev/bszy_main.jpg" alt="BSZY">
+      <div>
+        <div class="brandname">bszy.dev</div>
+        <div class="brandmeta">Balint · Effingen AG</div>
+      </div>
+      <a class="headlink" href="https://help.bszy.dev" data-i18n="nav_support">IT-Support ↗</a>
+      <div class="langswitch" role="group" aria-label="Sprache / Language">
+        <button type="button" data-lang="de">DE</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
 
-    <div class="page">
-        <header class="hero">
-            <div class="hero-top">
-                <img src="bszy_main.jpg" alt="BSZY Logo" class="logo-img" onerror="this.style.display='none'">
-                <div class="hero-meta">
-                    <p class="hero-name">bszy.dev</p>
-                    <p class="hero-tag">Balint · Effingen, CH</p>
-                </div>
-                <span class="badge"><span class="badge-dot"></span>Learning</span>
-            </div>
-            <p class="hero-desc">SwiftUI beginner going from zero to iOS developer. Building in public — progress, projects, and honest lessons along the way.</p>
-        </header>
+  <div class="hero">
+    <h1 data-i18n="hero_title">Auf dem Weg zum iOS-Entwickler — Schritt für Schritt, in aller Öffentlichkeit.</h1>
+    <p data-i18n="hero_sub">Ich lerne SwiftUI von Grund auf und dokumentiere jeden Tag ehrlich: was ich baue, was ich verstehe, wo ich hänge. Kein Hochglanz — echter Fortschritt zum Mitverfolgen.</p>
 
-        <main id="main-content">
+    <div class="commit">
+      <div class="stat">
+        <div class="num">11</div>
+        <div class="lab" data-i18n="stat_streak">Tage in Folge dabei</div>
+      </div>
+      <div class="stat">
+        <div class="num">100</div>
+        <div class="lab" data-i18n="stat_goal">Tage — das Ziel, dranzubleiben</div>
+      </div>
+    </div>
+  </div>
 
-            <section class="section">
-                <p class="section-label">100 Days of SwiftUI</p>
-                <div class="progress-big">
-                    <span class="day-num" id="dayNum">11</span>
-                    <span class="day-label">of 100 days</span>
-                </div>
-                <div class="progress-detail">
-                    <div class="progress-track">
-                        <div class="progress-bar" id="pBar" role="progressbar" aria-valuenow="11" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <span class="progress-pct" id="pct">11%</span>
-                </div>
-            </section>
+  <section>
+    <div class="sec-title" data-i18n="now_title">Woran ich gerade arbeite</div>
+    <div class="sec-sub" data-i18n="now_sub">Aktuelles Projekt aus dem 100-Days-Kurs</div>
+    <div class="now">
+      <div class="top">
+        <span class="proj">WeSplit</span>
+        <span class="pill" data-i18n="now_pill">In Arbeit</span>
+      </div>
+      <div class="meta" data-i18n="now_meta">100 Days of SwiftUI · Tag 16 — Rechnung teilen &amp; Trinkgeld berechnen</div>
+      <pre><span class="k">struct</span> <span class="t">ContentView</span><span class="p">:</span> <span class="t">View</span> <span class="p">{</span>
+  <span class="p">@</span><span class="t">State</span> <span class="k">var</span> amount <span class="p">=</span> 0.0
+  <span class="k">var</span> body<span class="p">:</span> <span class="k">some</span> <span class="t">View</span> <span class="p">{</span>
+    <span class="t">Form</span> <span class="p">{ ... }</span>
+  <span class="p">}</span>
+<span class="p">}</span></pre>
+      <div class="tags">
+        <span class="tag">SwiftUI</span>
+        <span class="tag">@State</span>
+        <span class="tag">Form</span>
+        <span class="tag" data-i18n="tag_beginner">Beginner</span>
+      </div>
+    </div>
+  </section>
 
-            <section class="section">
-                <p class="section-label">Current project</p>
-                <div class="project-card">
-                    <div class="project-header">
-                        <div>
-                            <p class="project-name">WeSplit</p>
-                            <p class="project-sub">100 Days – Day 16 challenge</p>
-                        </div>
-                        <span class="status-pill">In progress</span>
-                    </div>
-                    <div class="project-screen">
-                        <pre class="screen-code">struct ContentView: View {
-  @State var amount = 0.0
-  var body: some View {
-    Form { ... }
+  <section>
+    <div class="sec-title" data-i18n="approach_title">Wie ich das angehe</div>
+    <div class="cards">
+      <div class="card"><span class="ic">📆</span><div class="txt"><b data-i18n="approach_1_h">Jeden Tag ein Stück</b><span data-i18n="approach_1_b">Lieber täglich eine Stunde als einmal die Woche fünf — Konsequenz vor Tempo.</span></div></div>
+      <div class="card"><span class="ic">🛠</span><div class="txt"><b data-i18n="approach_2_h">Bauen, nicht nur lesen</b><span data-i18n="approach_2_b">Jedes Konzept landet sofort in einem laufenden Mini-Projekt.</span></div></div>
+      <div class="card"><span class="ic">🪞</span><div class="txt"><b data-i18n="approach_3_h">Ehrlich dokumentieren</b><span data-i18n="approach_3_b">Auch das, was nicht klappt — Fehler sind Teil des Wegs, nicht das Ende.</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title" data-i18n="res_title">Womit ich lerne</div>
+    <div class="links">
+      <a class="rlink" href="https://www.hackingwithswift.com/100/swiftui">
+        <span class="badge">HWS</span>
+        <span><span class="rname">100 Days of SwiftUI</span><br><span class="rurl">hackingwithswift.com</span></span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="rlink" href="https://developer.apple.com/tutorials/swiftui">
+        <span class="badge">APL</span>
+        <span><span class="rname">Apple SwiftUI Tutorials</span><br><span class="rurl">developer.apple.com</span></span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="rlink" href="https://www.swift.org">
+        <span class="badge">S</span>
+        <span><span class="rname">Swift.org</span><br><span class="rurl">swift.org</span></span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 BSZY</span>
+    <a href="https://x.com/balintszy">@balintszy ↗</a>
+    <a href="https://help.bszy.dev" data-i18n="nav_support">IT-Support ↗</a>
+    <span class="spacer"></span>
+    <a href="#" onclick="document.getElementById('imp').showModal();return false;" data-i18n="foot_imp">Impressum</a>
+  </footer>
+</div>
+
+<dialog id="imp">
+  <button class="close" onclick="document.getElementById('imp').close()">×</button>
+  <h3 data-i18n="imp_title">Impressum</h3>
+  <p><b data-i18n="imp_provider">Anbieter</b><br>Balint Szikszay · <span data-i18n="imp_sole">Einzelunternehmen</span></p>
+  <p><b data-i18n="imp_address">Adresse</b><br>Dorfstrasse 451, 5078 Effingen, <span data-i18n="imp_country">Schweiz</span></p>
+  <p><b data-i18n="imp_contact">Kontakt</b><br><a class="link" href="mailto:hello@bszy.dev">hello@bszy.dev</a></p>
+  <p><b data-i18n="imp_disc_h">Haftungsausschluss</b><br><span data-i18n="imp_disc_b">Alle Angaben ohne Gewähr.</span></p>
+</dialog>
+
+<script>
+  var I18N = {
+    de: {
+      nav_support: "IT-Support ↗",
+      hero_title: "Auf dem Weg zum iOS-Entwickler — Schritt für Schritt, in aller Öffentlichkeit.",
+      hero_sub: "Ich lerne SwiftUI von Grund auf und dokumentiere jeden Tag ehrlich: was ich baue, was ich verstehe, wo ich hänge. Kein Hochglanz — echter Fortschritt zum Mitverfolgen.",
+      stat_streak: "Tage in Folge dabei",
+      stat_goal: "Tage — das Ziel, dranzubleiben",
+      now_title: "Woran ich gerade arbeite",
+      now_sub: "Aktuelles Projekt aus dem 100-Days-Kurs",
+      now_pill: "In Arbeit",
+      now_meta: "100 Days of SwiftUI · Tag 16 — Rechnung teilen & Trinkgeld berechnen",
+      tag_beginner: "Beginner",
+      approach_title: "Wie ich das angehe",
+      approach_1_h: "Jeden Tag ein Stück",
+      approach_1_b: "Lieber täglich eine Stunde als einmal die Woche fünf — Konsequenz vor Tempo.",
+      approach_2_h: "Bauen, nicht nur lesen",
+      approach_2_b: "Jedes Konzept landet sofort in einem laufenden Mini-Projekt.",
+      approach_3_h: "Ehrlich dokumentieren",
+      approach_3_b: "Auch das, was nicht klappt — Fehler sind Teil des Wegs, nicht das Ende.",
+      res_title: "Womit ich lerne",
+      foot_imp: "Impressum",
+      imp_title: "Impressum",
+      imp_provider: "Anbieter",
+      imp_sole: "Einzelunternehmen",
+      imp_address: "Adresse",
+      imp_country: "Schweiz",
+      imp_contact: "Kontakt",
+      imp_disc_h: "Haftungsausschluss",
+      imp_disc_b: "Alle Angaben ohne Gewähr."
+    },
+    en: {
+      nav_support: "IT Support ↗",
+      hero_title: "On my way to becoming an iOS developer — step by step, in public.",
+      hero_sub: "I'm learning SwiftUI from scratch and documenting it honestly every day: what I build, what clicks, and where I get stuck. No polish — real progress you can follow.",
+      stat_streak: "days in a row",
+      stat_goal: "days — the goal is to keep going",
+      now_title: "What I'm working on",
+      now_sub: "Current project from the 100 Days course",
+      now_pill: "In progress",
+      now_meta: "100 Days of SwiftUI · Day 16 — split a bill & calculate the tip",
+      tag_beginner: "Beginner",
+      approach_title: "How I go about it",
+      approach_1_h: "A little every day",
+      approach_1_b: "An hour daily beats five hours once a week — consistency over speed.",
+      approach_2_h: "Build, don't just read",
+      approach_2_b: "Every concept goes straight into a running mini-project.",
+      approach_3_h: "Document honestly",
+      approach_3_b: "Including what doesn't work — mistakes are part of the path, not the end of it.",
+      res_title: "What I learn with",
+      foot_imp: "Legal notice",
+      imp_title: "Legal notice",
+      imp_provider: "Provider",
+      imp_sole: "Sole proprietorship",
+      imp_address: "Address",
+      imp_country: "Switzerland",
+      imp_contact: "Contact",
+      imp_disc_h: "Disclaimer",
+      imp_disc_b: "All information without warranty."
+    }
+  };
+
+  function applyLang(lang){
+    if (!I18N[lang]) lang = "de";
+    var dict = I18N[lang];
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var key = el.getAttribute("data-i18n");
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    document.querySelectorAll(".langswitch button").forEach(function(b){
+      b.classList.toggle("active", b.getAttribute("data-lang") === lang);
+    });
+    // Sprache in der URL halten, damit englische Links teilbar sind
+    try {
+      var url = new URL(window.location);
+      url.searchParams.set("lang", lang);
+      window.history.replaceState(null, "", url);
+    } catch(e){}
   }
-}</pre>
-                    </div>
-                    <div class="project-tags">
-                        <span class="tag">SwiftUI</span>
-                        <span class="tag">@State</span>
-                        <span class="tag">Form</span>
-                        <span class="tag">Beginner</span>
-                    </div>
-                </div>
-            </section>
 
-            <section class="section">
-                <p class="section-label">Resources</p>
-                <div class="resources-list">
-                    <a class="resource-item" href="https://www.hackingwithswift.com/100/swiftui" target="_blank" rel="noopener noreferrer">
-                        <div class="resource-icon ri-hws">HWS</div>
-                        <div class="resource-text">
-                            <p class="resource-name">100 Days of SwiftUI</p>
-                            <p class="resource-url">hackingwithswift.com</p>
-                        </div>
-                        <span class="resource-arrow">↗</span>
-                    </a>
-                    <a class="resource-item" href="https://developer.apple.com/tutorials/swiftui" target="_blank" rel="noopener noreferrer">
-                        <div class="resource-icon ri-apple">APL</div>
-                        <div class="resource-text">
-                            <p class="resource-name">Apple SwiftUI Tutorials</p>
-                            <p class="resource-url">developer.apple.com</p>
-                        </div>
-                        <span class="resource-arrow">↗</span>
-                    </a>
-                    <a class="resource-item" href="https://www.swift.org" target="_blank" rel="noopener noreferrer">
-                        <div class="resource-icon ri-swift">S</div>
-                        <div class="resource-text">
-                            <p class="resource-name">Swift.org</p>
-                            <p class="resource-url">swift.org</p>
-                        </div>
-                        <span class="resource-arrow">↗</span>
-                    </a>
-                </div>
-            </section>
+  // Startsprache: URL-Parameter, sonst Browsersprache, sonst Deutsch
+  var params = new URLSearchParams(window.location.search);
+  var start = params.get("lang");
+  if (!start) start = (navigator.language || "de").slice(0,2).toLowerCase();
+  if (start !== "en") start = "de";
+  applyLang(start);
 
-            <section class="section">
-                <p class="section-label">Support</p>
-                <a class="help-banner" href="https://help.bszy.dev" target="_blank" rel="noopener noreferrer">
-                    <div class="help-banner-left">
-                        <div class="help-banner-icon">💬</div>
-                        <div>
-                            <p class="help-banner-title">Persönlicher Support</p>
-                            <p class="help-banner-sub">help.bszy.dev · ab 39 CHF</p>
-                        </div>
-                    </div>
-                    <span class="help-banner-arrow">↗</span>
-                </a>
-            </section>
+  document.querySelectorAll(".langswitch button").forEach(function(b){
+    b.addEventListener("click", function(){ applyLang(b.getAttribute("data-lang")); });
+  });
+</script>
 
-        </main>
 
-        <footer class="footer">
-            <span class="footer-copy">© 2026 BSZY</span>
-            <div style="display:flex;gap:8px;align-items:center;">
-                <a class="social-link" href="https://x.com/balintszy" target="_blank" rel="noopener noreferrer me">@balintszy ↗</a>
-                <button onclick="document.getElementById('impressum-modal').style.display='flex'" style="font-size:12px;color:var(--text-secondary);font-family:'Space Mono',monospace;padding:4px 10px;border:0.5px solid var(--border);border-radius:4px;background:transparent;cursor:pointer;">Impressum</button>
-                <button onclick="document.getElementById('agb-modal').style.display='flex'" style="font-size:12px;color:var(--text-secondary);font-family:'Space Mono',monospace;padding:4px 10px;border:0.5px solid var(--border);border-radius:4px;background:transparent;cursor:pointer;">AGB</button>
-            </div>
-        </footer>
-
-        <!-- IMPRESSUM MODAL -->
-        <div id="impressum-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)this.style.display='none'">
-            <div style="background:var(--bg-primary);border:0.5px solid var(--border);border-radius:12px;padding:2rem;max-width:480px;width:100%;font-family:'DM Sans',sans-serif;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
-                    <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-secondary)">Impressum</span>
-                    <button onclick="document.getElementById('impressum-modal').style.display='none'" style="background:transparent;border:none;cursor:pointer;font-size:18px;color:var(--text-secondary);">×</button>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:0.75rem;font-size:14px;color:var(--text-secondary);line-height:1.7;">
-                    <div><strong style="color:var(--text-primary)">Anbieter</strong><br>Balint Szikszay<br>Einzelunternehmen</div>
-                    <div><strong style="color:var(--text-primary)">Adresse</strong><br>Dorfstrasse 451<br>5078 Effingen<br>Schweiz</div>
-                    <div><strong style="color:var(--text-primary)">Kontakt</strong><br><a href="mailto:hello@bszy.dev" style="color:var(--accent)">hello@bszy.dev</a></div>
-                    <div><strong style="color:var(--text-primary)">Haftungsausschluss</strong><br>Alle Angaben ohne Gewähr. Preise in CHF inkl. allfälliger Steuern.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- AGB MODAL -->
-    <div id="agb-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;" onclick="if(event.target===this)this.style.display='none'">
-        <div style="background:var(--bg-primary);border:0.5px solid var(--border);border-radius:12px;padding:2rem;max-width:520px;width:100%;font-family:'DM Sans',sans-serif;max-height:90vh;overflow-y:auto;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
-                <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-secondary)">Allgemeine Geschäftsbedingungen</span>
-                <button onclick="document.getElementById('agb-modal').style.display='none'" style="background:transparent;border:none;cursor:pointer;font-size:18px;color:var(--text-secondary);">×</button>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:1.25rem;font-size:14px;color:var(--text-secondary);line-height:1.75;">
-                <div><strong style="color:var(--text-primary);display:block;margin-bottom:4px;">1. Anbieter</strong>Balint Szikszay, Einzelunternehmen, Dorfstrasse 451, 5078 Effingen. Kontakt: hello@bszy.dev</div>
-                <div><strong style="color:var(--text-primary);display:block;margin-bottom:4px;">2. Leistungen</strong>Persönliche IT-Support-Dienstleistungen: Schnellberatung (39 CHF), Support (79 CHF, mind. 30 Min.), Beratung nach Aufwand (160 CHF/h) und Vor-Ort Support (160 CHF/h zzgl. Anfahrt).</div>
-                <div><strong style="color:var(--text-primary);display:block;margin-bottom:4px;">3. Zahlung</strong>Alle Preise in CHF, Zahlung vor Leistungserbringung via Stripe. Mit Zahlungsabschluss kommt der Vertrag zustande.</div>
-                <div><strong style="color:var(--text-primary);display:block;margin-bottom:4px;">4. Rückerstattung</strong>Pauschalpakete sind nicht rückerstattbar. Beim Stundenpaket wird 1 Stunde im Voraus verrechnet, weiterer Aufwand wird vorab kommuniziert.</div>
-                <div><strong style="color:var(--text-primary);display:block;margin-bottom:4px;">5. Haftung</strong>Keine Garantie auf vollständige Problemlösung. Haftung begrenzt auf den bezahlten Betrag.</div>
-                <div><strong style="color:var(--text-primary);display:block;margin-bottom:4px;">6. Anwendbares Recht</strong>Schweizer Recht. Gerichtsstand: Effingen, Kanton Aargau.</div>
-                <div style="font-size:12px;color:var(--text-secondary);border-top:0.5px solid var(--border);padding-top:1rem;">Stand: Mai 2026 · hello@bszy.dev</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        (function () {
-            'use strict';
-
-            const DAY = 11; // <-- update this number as you progress
-
-            document.getElementById('dayNum').textContent = DAY;
-            document.getElementById('pct').textContent = DAY + '%';
-            document.getElementById('pBar').setAttribute('aria-valuenow', DAY);
-            setTimeout(function () {
-                document.getElementById('pBar').style.width = DAY + '%';
-            }, 400);
-
-            const themeIcon = document.getElementById('theme-icon');
-            let currentTheme = 'light';
-
-            function isLocalStorageAvailable() {
-                try { localStorage.setItem('__test__', '1'); localStorage.removeItem('__test__'); return true; }
-                catch (e) { return false; }
-            }
-
-            function applyTheme(theme) {
-                if (theme === 'dark') { document.body.classList.add('dark-mode'); if (themeIcon) themeIcon.textContent = '☀️'; }
-                else { document.body.classList.remove('dark-mode'); if (themeIcon) themeIcon.textContent = '🌙'; }
-                currentTheme = theme;
-            }
-
-            function getSaved() { return isLocalStorageAvailable() ? (localStorage.getItem('theme') || 'light') : 'light'; }
-
-            applyTheme(getSaved());
-
-            window.toggleTheme = function () {
-                const next = currentTheme === 'dark' ? 'light' : 'dark';
-                applyTheme(next);
-                if (isLocalStorageAvailable()) localStorage.setItem('theme', next);
-            };
-        })();
-    </script>
 </body>
 </html>
